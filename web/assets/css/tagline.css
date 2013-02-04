@@ -4,15 +4,15 @@
     border-width: 0 0 4px 0;
 }
 
-#messages, #quickactions {
+#user, #quickactions {
     display: inline-block;
-    width: 49%;
     margin: 0;
 }
 
-#messages {
+#user {
     padding: 10px;
     font-size: 24px;
+    width: 250px;
 }
 
 #quickactions button {

@@ -6,92 +6,47 @@
     margin: 0px;
     padding: 0px;
     border: 1px solid #0057af ;
-    box-shadow: 1px 1px 4px #000000;
+    box-shadow: 2px 4px 10px #000000;
 }
 
-.dataTable tr:last-child td:last-child {
-    -moz-border-radius-bottomright: 0px;
-    -webkit-border-bottom-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-.dataTable table tr:first-child td:first-child {
-    -moz-border-radius-topleft: 0px;
-    -webkit-border-top-left-radius: 0px;
-    border-top-left-radius: 0px;
-}
-
-.dataTable table tr:first-child td:last-child {
-    -moz-border-radius-topright: 0px;
-    -webkit-border-top-right-radius: 0px;
-    border-top-right-radius: 0px;
-}
-
-.dataTable tr:last-child td:first-child {
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-}
-
-.dataTable tr:hover td {
+.dataTable tr td:hover {
     background-color: #d3e9ff;
 }
 
 .dataTable td {
     vertical-align: middle;
-
     background-color: #ffffff;
     border: 1px solid #0057af;
     border-width: 0px 1px 1px 0px;
     text-align: left;
-    padding: 7px;
+    padding: 6px;
     font-size: 10px;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     font-weight: normal;
     color: #000000;
+    height: 100px;
+    width: 100px;
 }
 
-.dataTable tr:last-child td {
-    border-width: 0px 1px 0px 0px;
-}
-
-.dataTable tr td:last-child {
-    border-width: 0px 0px 1px 0px;
-}
-
-.dataTable tr:last-child td:last-child {
-    border-width: 0px 0px 0px 0px;
-}
-
-.dataTable tr:first-child td {
-    background: -o-linear-gradient(bottom, #0057af 5%, #0057af 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #0057af));
-    background: -moz-linear-gradient(center top, #0057af 5%, #0057af 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = "#0057af", endColorstr = "#0057af");
-    background: -o-linear-gradient(top, #0057af, 0057 af);
+.dataTable tr th {
     background-color: #0057af;
     border: 0px solid #0057af;
     text-align: center;
     border-width: 0px 0px 1px 1px;
     font-size: 14px;
-    font-family: Arial;
+    font-family: 'Averia Libre', serif;
     font-weight: bold;
     color: #ffffff;
+    padding: 4px;
 }
 
-.dataTable tr:first-child:hover td {
-    background: -o-linear-gradient(bottom, #0057af 5%, #0057af 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0057af), color-stop(1, #0057af));
-    background: -moz-linear-gradient(center top, #0057af 5%, #0057af 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = "#0057af", endColorstr = "#0057af");
-    background: -o-linear-gradient(top, #0057af, 0057 af);
-    background-color: #0057af;
+.dataTable tr th:hover {
+    background-color: #0064e7;
 }
 
-.dataTable tr:first-child td:first-child {
-    border-width: 0px 0px 1px 0px;
+.dataTable tr th.gray {
+    background-color: rgba(0, 62, 132, 0.27);
 }
-
-.dataTable tr:first-child td:last-child {
-    border-width: 0px 0px 1px 1px;
+.dataTable tr td.highlight {
+    background-color: rgba(255, 187, 83, 0.43);
 }
