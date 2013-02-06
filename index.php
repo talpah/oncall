@@ -1,6 +1,5 @@
 <?php 
-    $baseFragment = dirname($_SERVER['SCRIPT_URL']).'/';
-    
+    $baseFragment = $_SERVER['SCRIPT_URL'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +9,9 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $baseFragment; ?>assets/css/oncall.css" media="all">
     <link href='http://fonts.googleapis.com/css?family=Julius+Sans+One' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Averia+Libre' rel='stylesheet' type='text/css'>
+    <link href='http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
     <script type="text/javascript" src="<?php echo $baseFragment; ?>assets/js/data-table.js"></script>
     <script type="text/javascript" src="<?php echo $baseFragment; ?>assets/js/oncall.js"></script>
 </head>

@@ -15,6 +15,7 @@ var DataTable = (function () {
         this._defaultOptions = {
             container: null,
             headers: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ],
+            skipWeekends: true,
             squareClass: 'square',
             squareHeaderClass: 'squareHeader',
             onReorder: null
@@ -34,11 +35,13 @@ var DataTable = (function () {
             }
         }
         
-        this._container = this._options['container'];
+        this._container = this._options.container;
         
         this._today = (new Date()).toLocaleDateString();
+        this._sortEnabled = false;
         
         this._generateGrid();
+        this.enableSort();
     }
     
     DataTable.prototype._generateGrid = function () {
@@ -62,7 +65,7 @@ var DataTable = (function () {
                 dayOfWeek = dataDOW;
             }
             this._square(dataPiece).appendTo(this._container);
-            if (dayOfWeek==5) {
+            if (this._options.skipWeekends && dayOfWeek==5) {
                 this._square().appendTo(this._container); 
                 this._square().appendTo(this._container);
                 dayOfWeek = 0;
@@ -70,7 +73,7 @@ var DataTable = (function () {
             dayOfWeek++;
         }
         if (dayOfWeek > 1) {
-            for (var i=dayOfWeek; i<=7; i++) {
+            for (var d=dayOfWeek; d<=7; d++) {
                 this._square().appendTo(this._container);
             }
         }
@@ -85,24 +88,35 @@ var DataTable = (function () {
     };
         
     DataTable.prototype._square = function (data) {
-        var mySquare = $('<div/>').addClass(this._options['squareClass']);
+        var mySquare = $('<div/>').addClass(this._options.squareClass);
         if (data!==undefined) {
             var myDate = new Date(data.date);
             var dateString = myDate.toJSON();
             mySquare.attr('id', dateString);
+            mySquare.attr('assignee', data.assignee);
             mySquare.html(this.toHtml(data));
             if (myDate.toLocaleDateString() == this._today) {
                 mySquare.addClass('today');
             }
         } else {
+            var previousElement = this._container.children('.square:last');
+            if (previousElement.length>0 && previousElement.attr('id')) {
+                var myDate = new Date(previousElement.attr('id'));
+                myDate.setDate(myDate.getDate()+1);
+                mySquare.attr('id', myDate.toJSON());
+            }
             mySquare.addClass('disabled').html('empty');
+        }
+        
+        if (myDate) {
+            $('<span/>').addClass('squareDate').html(myDate.getDate()).appendTo(mySquare);
         }
         
         return mySquare;
     };
     
     DataTable.prototype._squareHead = function (label) {
-        var mySquare = $('<div/>').addClass(this._options['squareHeaderClass']);
+        var mySquare = $('<div/>').addClass(this._options.squareHeaderClass);
         if (label!==undefined) {
             mySquare.html(label);
         } else {
@@ -115,46 +129,32 @@ var DataTable = (function () {
         return data.assignee;
     };
     
-    DataTable.prototype.fill = function (data) {
-        var x = 0, y = 0;
-        var tBody = this.table.children('tbody');
-        tBody.empty();
-        for (var i = 0; i < Object.keys(data).length; i++) {
-            var tableLine = $('<tr/>').appendTo(tBody);
-            for (var j = 0; j < Object.keys(this.columns).length; j++) {
-                $('<td id="' + this.prefix + i + '-' + j + '"></td>').appendTo(tableLine);
+    DataTable.prototype.enableSort = function() {
+        $('div.'+this._options.squareClass+':not(.disabled)')
+        .draggable({ 
+            revert: "invalid",
+            stack: '.square',
+            start: function(event, ui) {
+                $('div[assignee="'+$(this).attr('assignee')+'"]').addClass('invalidTarget');
+            },
+            stop: function(event, ui) {
+                $('.invalidTarget').removeClass('invalidTarget');
             }
-        }
-
-        for (var line in data) {
-            for (var column in data[line]) {
-                var content = data[line][column];
-                var element = $('#' + this.prefix + x + '-' + y);
-                var htmlContent = content;
-                if (typeof content === 'object') {
-                    htmlContent = content.html;
-                    for (var attribute in content) {
-                        if (attribute != 'html') {
-                            element.attr(attribute, content[attribute]);
-                        }
-                    }
-                }
-                this.data[ x + '-' + y]=element;
-                element.html(htmlContent);
-                y++;
+        })
+        .droppable({
+            hoverClass: "hoversquare",
+            accept: function(draggableElement) {
+                return $(this).attr('assignee')!=$(draggableElement).attr('assignee');
             }
-            x++;
-            y = 0;
-        }
+        });
+        this._sortEnabled = true;
     };
-
-    DataTable.prototype.hilight = function(x, y) {
-        if (/^\d+$/.test(x)) {
-            this.data[ x + '-' + y].addClass('highlight');
-        } else {
-            this.table.find('td:contains('+x+')').addClass('highlight');
-        }
+    
+    DataTable.prototype.disableSort = function() {
+        $('div.'+this._options.squareClass+':not(.disabled)').draggable('disable').droppable('disable');
+        this._sortEnabled = false;
     };
-
+    
+    
     return DataTable;
 })();
