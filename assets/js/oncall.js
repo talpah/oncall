@@ -1,53 +1,30 @@
 var dTable;
 $(document).ready(function () {
 
-    dTable = new DataTable($('#dataTable'),  {
-        Luni: 'Luni',
-        Marti: 'Marti',
-        Miercuri: 'Miercuri',
-        Joi: 'Joi',
-        Vineri: 'Vineri'
-    });
-    dTable.generate();
-    dTable.fill({
-        1: {
-                luni:'Cosmin I.',
-                marti: 'Robert S.',
-                miercuri: 'Alexandru V.',
-                joi: 'Stefan V.',
-                vineri: 'Cosmin I.',
-                sambata:{html:'', class: 'gray'},
-                duminica:{html:'', class: 'gray'}
-        },
-        2: {
-                luni:'Robert S.',
-                marti: 'Alexandru V.',
-                miercuri: 'Stefan V.',
-                joi: 'Cosmin I.',
-                vineri: 'Robert S.',
-                sambata:{html:'', class: 'gray'},
-                duminica:{html:'', class: 'gray'}
-        },
-        3: {
-                luni: 'Alexandru V.',
-                marti: 'Stefan V.',
-                miercuri: 'Cosmin I.',
-                joi: 'Robert S.',
-                vineri: 'Alexandru V.',
-                sambata:{html:'', class: 'gray'},
-                duminica:{html:'', class: 'gray'}
-        },
-        4: {
-                luni: 'Stefan V.',
-                marti: 'Cosmin I.',
-                miercuri: 'Robert S.',
-                joi: 'Alexandru V.',
-                vineri: 'Stefan V.',
-                sambata:{html:'', class: 'gray'},
-                duminica:{html:'', class: 'gray'}
+    dTable = new DataTable(
+        [
+            {date:'2013-02-04', assignee:'Cosmin I.'},
+            {date:'2013-02-05', assignee:'Robert S.'},
+            {date:'2013-02-06', assignee:'Alexandru V.'},
+            {date:'2013-02-07', assignee:'Stefan V.'},
+            {date:'2013-02-08', assignee:'Cosmin I.'},
+            {date:'2013-02-11', assignee:'Robert S.'},
+            {date:'2013-02-12', assignee:'Alexandru V.'},
+            {date:'2013-02-13', assignee:'Stefan V.'},
+            {date:'2013-02-14', assignee:'Cosmin I.'},
+            {date:'2013-02-15', assignee:'Robert S.'},
+            {date:'2013-02-18', assignee:'Alexandru V.'},
+            {date:'2013-02-19', assignee:'Stefan V.'},
+            {date:'2013-02-20', assignee:'Cosmin I.'},
+            {date:'2013-02-21', assignee:'Robert S.'},
+            {date:'2013-02-22', assignee:'Alexandru V.'}
+        ],
+        {
+            container: $('#dataTable')
         }
+        
+    );
 
-    });
     $('#hilightme').click(function() {
         dTable.hilight($('#user').text());
     });

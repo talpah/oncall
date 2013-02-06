@@ -2,24 +2,14 @@
     margin: 12px;
 }
 
-.dataTable table {
-    margin: 0px;
-    padding: 0px;
-    border: 1px solid #0057af ;
-    box-shadow: 2px 4px 10px #000000;
-}
-
-.dataTable tr td:hover {
-    background-color: #d3e9ff;
-}
-
-.dataTable td {
+.square {
+    display: inline-block;
     vertical-align: middle;
     background-color: #ffffff;
     border: 1px solid #0057af;
     border-width: 0px 1px 1px 0px;
     text-align: left;
-    padding: 6px;
+    padding: 4px;
     font-size: 10px;
     font-family: Arial, sans-serif;
     font-weight: normal;
@@ -28,9 +18,10 @@
     width: 100px;
 }
 
-.dataTable tr th {
+.squareHeader {
+    display: inline-block;
     background-color: #0057af;
-    border: 0px solid #0057af;
+    border: 1px solid #0057af;
     text-align: center;
     border-width: 0px 0px 1px 1px;
     font-size: 14px;
@@ -38,15 +29,16 @@
     font-weight: bold;
     color: #ffffff;
     padding: 4px;
+    width: 100px;
 }
 
 .dataTable tr th:hover {
     background-color: #0064e7;
 }
 
-.dataTable tr th.gray {
-    background-color: rgba(0, 62, 132, 0.27);
+.disabled {
+    background-color: #DADADA;
 }
-.dataTable tr td.highlight {
+.today {
     background-color: rgba(255, 187, 83, 0.43);
 }

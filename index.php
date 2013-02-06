@@ -18,19 +18,13 @@
 <div id="menu">
     <ul class="menu top">
         <li>
-            <a href="/">Main</a>
+            <a href="/">Projects</a>
             <ul class="menu sub">
-                <li><a href="search">Search</a></li>
+                <li><a href="/proj1">Proj1</a></li>
             </ul>
         </li>
         <li>
             <a href="/today">Today</a>
-        </li>
-        <li>
-            <a href="/week">This week</a>
-        </li>
-        <li>
-            <a href="/month">This month</a>
         </li>
     </ul>
 </div>
