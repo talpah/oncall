@@ -3,11 +3,10 @@ var DataTable = (function () {
     /**
     * TODO:
     * - data object|url
-    * - jQueryUI reorder
     */
     
     function DataTable(data, options) {
-        if (typeof data !== 'object') {
+        if (typeof data !== 'object' && !this._isUrl(data)) {
             throw new Error('DataTable: Specified data is not a valid object.');
         }
         this._data = data;
@@ -40,8 +39,17 @@ var DataTable = (function () {
         this._today = (new Date()).toLocaleDateString();
         this._swapEnabled = false;
         
-        this._generateGrid();
-        this.enableSwap();
+        if (this._isUrl(this._data)) {
+            var $this = this;
+            $.get(this._data, {}, function(data){
+                $this._data=data;
+                $this._generateGrid();
+                $this.enableSwap();
+            });
+        } else {
+            this._generateGrid();
+            this.enableSwap();
+        }
     }
     
     DataTable.prototype._generateGrid = function () {
@@ -175,7 +183,6 @@ var DataTable = (function () {
         
     };
     
-    
     DataTable.prototype.toJSON = function() {
         return this._container.find('.square:not(.disabled)')
             .map(function(index, domElement){ 
@@ -196,6 +203,11 @@ var DataTable = (function () {
         }
         return textResult.join(', ');
     };
-    
+
+    DataTable.prototype._isUrl = function(string){
+        var regex = new RegExp("(http:/|https:/)?(/[^\s\"'<>]+)+/?");
+        return regex.test(string);
+    };
+
     return DataTable;
 })();
