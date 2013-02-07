@@ -1,5 +1,5 @@
 <?php 
-    $baseFragment = $_SERVER['SCRIPT_URL'];
+    $baseFragment = '/oncall/';//dirname($_SERVER['SCRIPT_URL']).'/';
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@
 <div id="tagline">
     <div id="user">Cosmin I.</div>
     <div id="quickactions">
-        <button id="hilightme">Show on grid</button>
+        <!--<button id="hilightme">Show on grid</button>-->
     </div>
 </div>
 <div id="main">

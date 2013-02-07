@@ -38,10 +38,10 @@ var DataTable = (function () {
         this._container = this._options.container;
         
         this._today = (new Date()).toLocaleDateString();
-        this._sortEnabled = false;
+        this._swapEnabled = false;
         
         this._generateGrid();
-        this.enableSort();
+        this.enableSwap();
     }
     
     DataTable.prototype._generateGrid = function () {
@@ -91,19 +91,20 @@ var DataTable = (function () {
         var mySquare = $('<div/>').addClass(this._options.squareClass);
         if (data!==undefined) {
             var myDate = new Date(data.date);
-            var dateString = myDate.toJSON();
+            var dateString = myDate.valueOf();
             mySquare.attr('id', dateString);
             mySquare.attr('assignee', data.assignee);
-            mySquare.html(this.toHtml(data));
+            mySquare.html(this._dataElementToHtml(data));
             if (myDate.toLocaleDateString() == this._today) {
                 mySquare.addClass('today');
             }
         } else {
             var previousElement = this._container.children('.square:last');
             if (previousElement.length>0 && previousElement.attr('id')) {
-                var myDate = new Date(previousElement.attr('id'));
+                var myDate = new Date();
+                myDate.setTime(previousElement.attr('id'));
                 myDate.setDate(myDate.getDate()+1);
-                mySquare.attr('id', myDate.toJSON());
+                mySquare.attr('id', myDate.valueOf());
             }
             mySquare.addClass('disabled').html('empty');
         }
@@ -125,14 +126,15 @@ var DataTable = (function () {
         return mySquare;
     };
     
-    DataTable.prototype.toHtml = function (data) {
+    DataTable.prototype._dataElementToHtml = function (data) {
         return data.assignee;
     };
     
-    DataTable.prototype.enableSort = function() {
+    DataTable.prototype.enableSwap = function() {
+        $this = this;
         $('div.'+this._options.squareClass+':not(.disabled)')
         .draggable({ 
-            revert: "invalid",
+            revert: true,
             stack: '.square',
             start: function(event, ui) {
                 $('div[assignee="'+$(this).attr('assignee')+'"]').addClass('invalidTarget');
@@ -145,15 +147,56 @@ var DataTable = (function () {
             hoverClass: "hoversquare",
             accept: function(draggableElement) {
                 return $(this).attr('assignee')!=$(draggableElement).attr('assignee');
+            },
+            drop: function(event, ui) {
+                $this._swapSquares($(this), ui.draggable);
+                $(this).effect('pulsate', {times: 3});
             }
         });
-        this._sortEnabled = true;
+        this._swapEnabled = true;
     };
     
-    DataTable.prototype.disableSort = function() {
+    DataTable.prototype.disableSwap = function() {
         $('div.'+this._options.squareClass+':not(.disabled)').draggable('disable').droppable('disable');
-        this._sortEnabled = false;
+        this._swapEnabled = false;
     };
+    
+    DataTable.prototype._swapSquares = function(squareOne, squareTwo) {
+        var assignee = squareOne.attr('assignee');
+        var label = squareOne.contents().get(0);
+        var dateblock = $(squareOne.contents()[1]);
+        var dateblockTwo = $(squareTwo.contents()[1]);
+        squareOne.attr('assignee', squareTwo.attr('assignee'));
+        squareOne.html($(squareTwo.contents().get(0)));
+        dateblock.appendTo(squareOne);
+        squareTwo.attr('assignee', assignee);
+        squareTwo.html($(label));
+        dateblockTwo.appendTo(squareTwo);
+        
+    };
+    
+    
+    DataTable.prototype.toJSON = function() {
+        return this._container.find('.square:not(.disabled)')
+            .map(function(index, domElement){ 
+                var x={}; 
+                var  myDate = new Date();
+                myDate.setTime($(domElement).attr('id'));
+                x.date=myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate(); 
+                x.assignee=$(domElement).attr('assignee'); 
+                return x;
+            });
+    }
+    
+    DataTable.prototype.toString = function() {
+        var jsonArray = this.toJSON();
+        var textResult = [];
+        for (var i=0; i<jsonArray.length; i++) {
+            textResult.push(jsonArray[i].date+': '+jsonArray[i].assignee);
+        }
+        return textResult.join(', ');
+    }
+    
     
     
     return DataTable;
