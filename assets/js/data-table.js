@@ -131,7 +131,7 @@ var DataTable = (function () {
     };
     
     DataTable.prototype.enableSwap = function() {
-        $this = this;
+        var $this = this;
         $('div.'+this._options.squareClass+':not(.disabled)')
         .draggable({ 
             revert: true,
@@ -186,7 +186,7 @@ var DataTable = (function () {
                 x.assignee=$(domElement).attr('assignee'); 
                 return x;
             });
-    }
+    };
     
     DataTable.prototype.toString = function() {
         var jsonArray = this.toJSON();
@@ -195,9 +195,7 @@ var DataTable = (function () {
             textResult.push(jsonArray[i].date+': '+jsonArray[i].assignee);
         }
         return textResult.join(', ');
-    }
-    
-    
+    };
     
     return DataTable;
 })();
