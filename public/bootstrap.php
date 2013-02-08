@@ -2,6 +2,8 @@
 define('ROOT', dirname(dirname(realpath(__FILE__))));
 define('SOURCE', dirname(dirname(realpath(__FILE__))).DIRECTORY_SEPARATOR.'src');
 
+date_default_timezone_set('UTC');
+
 function autoload($className)
 {
     $className = ltrim($className, '\\');

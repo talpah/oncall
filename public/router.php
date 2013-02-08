@@ -25,7 +25,7 @@ class Router {
             default:
                 $this->controller = $uri[1];
                 $this->action = $uri[2];
-                $this->arguments = array_slice($uri, 3);
+                $this->arguments = array_filter(array_slice($uri, 3));
                 break;
         }
     }
@@ -43,6 +43,7 @@ class Router {
             $controllerName = 'Controllers\\'.$this->controller;
             $controller = new $controllerName;
             $controller->setView($view);
+            $controller->setArguments($this->arguments);
             $actionOutput = $controller->run($this->action);
             $view->render($actionOutput);
         } catch(\Exception $exception) {
