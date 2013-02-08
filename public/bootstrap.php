@@ -1,4 +1,6 @@
 <?php
+define('ROOT', dirname(dirname(realpath(__FILE__))));
+define('SOURCE', dirname(dirname(realpath(__FILE__))).DIRECTORY_SEPARATOR.'src');
 
 function autoload($className)
 {
@@ -13,13 +15,7 @@ function autoload($className)
     $fileName=strtolower($fileName);
     $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-    require 'src/'.$fileName;
+    require SOURCE.DIRECTORY_SEPARATOR.$fileName;
 }
 
 spl_autoload_register("autoload");
-
-define('ROOT', realpath('.'));
-
-use Controllers\OnCall;
-
-$onCall = new OnCall();

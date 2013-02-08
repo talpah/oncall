@@ -3,16 +3,17 @@
 namespace Controllers;
 use Models\Actor;
 
-class OnCall {
-    
-    public function __construct() {
-        echo 'OnCall';
-        $this->getAssignments('now', 'never');
+class OnCall extends BaseController {
+
+
+    public function index() {
+
     }
 
-    public function getAssignments($dateStart, $dateEnd) {
+    public function getActorsJson() {
+        $this->view->setLayout(null);
         $actors = new Actor();
-        var_dump($actors->findAll());
+        return var_export($actors->findAll(), true);
     }
 
 }
