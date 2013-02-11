@@ -131,7 +131,7 @@ abstract class BaseModel {
         return implode("\n", $chunk);
     }
 
-    private function getSourceSize() {
+    protected function getSourceSize() {
         $linecount = 0;
         $handle = fopen($this->sourcePath, "r");
         while(!feof($handle)){
