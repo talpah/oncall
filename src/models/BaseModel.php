@@ -2,15 +2,10 @@
 
 namespace Models;
 
-abstract class BaseModel {
+abstract class BaseModel implements ModelInterface {
 
-    protected $source=null;
-    protected $fields=null;
-
-    protected $dataLoaded=false;
-
-    private $sourcePath=null;
-    private $dataSet=null;
+    private $databaseName='oncall.db';
+    protected static $connection=null;
 
     private $dataSize=0;
     private $iterableData=array();
@@ -18,17 +13,19 @@ abstract class BaseModel {
 
 
     public function __construct() {
-        if (!$this->source || !$this->fields) {
-            $message = get_class($this).': Invalid model specification.';
-            throw new \Exception($message);
-        }
+        $sourcePath = ROOT.'/data/'.$this->databaseName;
 
-        $this->sourcePath = ROOT.'/data/'.$this->source.'.json';
+        $db = self::getConnection();
 
-        if (!file_exists($this->sourcePath)) {
-            $message = get_class($this).': Unable to find source: '.$this->sourcePath.'.';
-            throw new \Exception($message);
+
+
+    }
+
+    public static function getConnection() {
+        if (!self::$connection) {
+            self::$connection = new SQLite3($this->databaseName);
         }
+        return self::$connection;
     }
 
     public function insert($data) {
