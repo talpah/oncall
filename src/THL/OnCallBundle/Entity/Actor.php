@@ -46,6 +46,28 @@ class Actor {
     private $is_active;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="reference_date", type="date")
+     */
+    private $reference_date;
+
+    /**
+     * @param $reference_date
+     *
+     * @return $this
+     */public function setReferenceDate($reference_date) {
+        $this->reference_date=$reference_date;
+        return $this;
+}
+
+    /**
+     * @return \DateTime
+     */public function getReferenceDate() {
+        return $this->reference_date;
+    }
+
+    /**
      * @return int
      */
     public function getOrderIndex() {

@@ -14,24 +14,11 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function indexAction() {
-        $mdir = '/home/cosmin.iancu/www/oncall/app/cache';
-        function delete($path) {
-            $it = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($path),
-                \RecursiveIteratorIterator::CHILD_FIRST
-            );
-            foreach ($it as $file) {
-                if (in_array($file->getBasename(), array('.', '..'))) {
-                    continue;
-                } elseif ($file->isDir()) {
-                    rmdir($file->getPathname());
-                } elseif ($file->isFile() || $file->isLink()) {
-                    unlink($file->getPathname());
-                }
-            }
-            rmdir($path);
-        }
-//        delete($mdir);
+        /**
+         * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
+         */
+        $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
+        $repo->generateSchedule(new \DateTime(), new \DateTime('next week'), 4);
         return array('name'=>'$name');
     }
 
@@ -40,31 +27,11 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function jsonGetAssignmentsAction() {
-        $response=new Response('[
-    {"date":"2013-02-04", "assignee":"Cosmin I."},
-    {"date":"2013-02-05", "assignee":"Robert S."},
-    {"date":"2013-02-06", "assignee":"Alexandru V."},
-    {"date":"2013-02-07", "assignee":"Stefan V."},
-    {"date":"2013-02-08", "assignee":"Cosmin I."},
-
-    {"date":"2013-02-11", "assignee":"Robert S."},
-    {"date":"2013-02-12", "assignee":"Alexandru V."},
-    {"date":"2013-02-13", "assignee":"Stefan V."},
-    {"date":"2013-02-14", "assignee":"George V."},
-    {"date":"2013-02-15", "assignee":"Cosmin I."},
-
-    {"date":"2013-02-18", "assignee":"Robert S."},
-    {"date":"2013-02-19", "assignee":"Alexandru V."},
-    {"date":"2013-02-20", "assignee":"Stefan V."},
-    {"date":"2013-02-21", "assignee":"George V."},
-    {"date":"2013-02-22", "assignee":"Cosmin I."},
-
-    {"date":"2013-02-25", "assignee":"Robert S."},
-    {"date":"2013-02-26", "assignee":"Alexandru V."},
-    {"date":"2013-02-27", "assignee":"Stefan V."},
-    {"date":"2013-02-28", "assignee":"George V."},
-    {"date":"2013-03-01", "assignee":"Cosmin I."}
-]');
+        /**
+         * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
+         */
+        $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
+        $response=new Response($repo->getJsonScheduleFor('', ''));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -74,9 +41,29 @@ class DefaultController extends Controller {
      * @Template("THLOnCallBundle:Default:run-test.html.twig")
      */
     public function runTestAction() {
-        $result = 'a';
+        $result='a';
         return array(
-            'result' => $result
+            'result'=>$result
         );
+    }
+
+    private function clearCache($path) {
+        $it=new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($path),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
+        /**
+         * @var \SplFileInfo $file
+         */
+        foreach ($it as $file) {
+            if (in_array($file->getBasename(), array('.', '..'))) {
+                continue;
+            } elseif ($file->isDir()) {
+                rmdir($file->getPathname());
+            } elseif ($file->isFile() || $file->isLink()) {
+                unlink($file->getPathname());
+            }
+        }
+        rmdir($path);
     }
 }
