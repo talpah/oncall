@@ -1,18 +1,21 @@
 var DataTable = (function () {
-    
+
     /**
     * TODO:
     * - data object|url
     */
-    
-    function DataTable(data, options) {
+
+    function DataTable(container, data, options) {
+        if (typeof container !== 'object') {
+            throw new Error('DataTable: Invalid container specified.');
+        }
         if (typeof data !== 'object' && !this._isUrl(data)) {
             throw new Error('DataTable: Specified data is not a valid object.');
         }
         this._data = data;
-
+        this._container = container;
         this._defaultOptions = {
-            container: null,
+            postData : {},
             headers: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ],
             skipWeekends: true,
             squareClass: 'square',
@@ -20,10 +23,9 @@ var DataTable = (function () {
             onReorder: null
         };
         this._requiredOptions = {
-            container: 'Container element was not specified.'
         };
         this._options = {};
-        
+
         for (var option in this._defaultOptions) {
             if (options.hasOwnProperty(option)) {
                 this._options[option] = options[option];
@@ -33,15 +35,13 @@ var DataTable = (function () {
                 this._options[option] = this._defaultOptions[option];
             }
         }
-        
-        this._container = this._options.container;
-        
+
         this._today = (new Date()).toLocaleDateString();
         this._swapEnabled = false;
-        
+
         if (this._isUrl(this._data)) {
             var $this = this;
-            $.get(this._data, {}, function(data){
+            $.post(this._data, $this._options.postData, function(data){
                 $this._data=data;
                 $this._generateGrid();
                 $this.enableSwap();
@@ -51,15 +51,15 @@ var DataTable = (function () {
             this.enableSwap();
         }
     }
-    
+
     DataTable.prototype._generateGrid = function () {
         this._container.html('');
         this._setContainerWidth(7);
-        
+
         for (var head in this._options.headers) {
             this._squareHead(this._options.headers[head]).appendTo(this._container);
         }
-        
+
         var dayOfWeek = 1;
         for (var idx in this._data) {
             var dataPiece = this._data[idx];
@@ -74,7 +74,7 @@ var DataTable = (function () {
             }
             this._square(dataPiece).appendTo(this._container);
             if (this._options.skipWeekends && dayOfWeek==5) {
-                this._square().appendTo(this._container); 
+                this._square().appendTo(this._container);
                 this._square().appendTo(this._container);
                 dayOfWeek = 0;
             }
@@ -94,7 +94,7 @@ var DataTable = (function () {
         square.remove();
         this._container.width(squareWidth*widthMultiplier);
     };
-        
+
     DataTable.prototype._square = function (data) {
         var mySquare = $('<div/>').addClass(this._options.squareClass);
         if (data!==undefined) {
@@ -116,14 +116,14 @@ var DataTable = (function () {
             }
             mySquare.addClass('disabled').html('empty');
         }
-        
+
         if (myDate) {
             $('<span/>').addClass('squareDate').html(myDate.getDate()).appendTo(mySquare);
         }
-        
+
         return mySquare;
     };
-    
+
     DataTable.prototype._squareHead = function (label) {
         var mySquare = $('<div/>').addClass(this._options.squareHeaderClass);
         if (label!==undefined) {
@@ -133,15 +133,15 @@ var DataTable = (function () {
         }
         return mySquare;
     };
-    
+
     DataTable.prototype._dataElementToHtml = function (data) {
         return data.assignee;
     };
-    
+
     DataTable.prototype.enableSwap = function() {
         var $this = this;
         $('div.'+this._options.squareClass+':not(.disabled)')
-        .draggable({ 
+        .draggable({
             revert: true,
             stack: '.square',
             start: function(event, ui) {
@@ -163,12 +163,12 @@ var DataTable = (function () {
         });
         this._swapEnabled = true;
     };
-    
+
     DataTable.prototype.disableSwap = function() {
         $('div.'+this._options.squareClass+':not(.disabled)').draggable('disable').droppable('disable');
         this._swapEnabled = false;
     };
-    
+
     DataTable.prototype._swapSquares = function(squareOne, squareTwo) {
         var assignee = squareOne.attr('assignee');
         var label = squareOne.contents().get(0);
@@ -180,21 +180,21 @@ var DataTable = (function () {
         squareTwo.attr('assignee', assignee);
         squareTwo.html($(label));
         dateblockTwo.appendTo(squareTwo);
-        
+
     };
-    
+
     DataTable.prototype.toJSON = function() {
         return this._container.find('.square:not(.disabled)')
-            .map(function(index, domElement){ 
-                var x={}; 
+            .map(function(index, domElement){
+                var x={};
                 var  myDate = new Date();
                 myDate.setTime($(domElement).attr('id'));
-                x.date=myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate(); 
-                x.assignee=$(domElement).attr('assignee'); 
+                x.date=myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate();
+                x.assignee=$(domElement).attr('assignee');
                 return x;
             });
     };
-    
+
     DataTable.prototype.toString = function() {
         var jsonArray = this.toJSON();
         var textResult = [];

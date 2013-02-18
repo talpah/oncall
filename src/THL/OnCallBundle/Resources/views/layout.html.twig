@@ -8,7 +8,8 @@
         'http://fonts.googleapis.com/css?family=Julius+Sans+One'
         'http://fonts.googleapis.com/css?family=Averia+Libre'
         'http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css'
-        '@THLOnCallBundle/Resources/public/css/*' %}
+        'bundles/thloncall/css/*'
+        filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}
@@ -16,23 +17,11 @@
 </head>
 <body>
 <div id="menu">
-    <ul class="menu top">
-        <li>
-            <a href="/">Projects</a>
-            <ul class="menu sub">
-                <li><a href="/proj1">Proj1</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="/today">Today</a>
-        </li>
-    </ul>
+    {{ knp_menu_render('THLOnCallBundle:Builder:mainMenu') }}
 </div>
 <div id="tagline">
-    <div id="user">Cosmin I.</div>
-    <div id="quickactions">
-        <!--<button id="hilightme">Show on grid</button>-->
-    </div>
+    {% block tagline %}
+    {% endblock %}
 </div>
 <div id="main">
     {% block body %}{% endblock %}
@@ -42,6 +31,8 @@
         'http://code.jquery.com/ui/1.10.0/jquery-ui.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
+    {% endblock %}
+    {% block javascriptinline %}
     {% endblock %}
 </div>
 

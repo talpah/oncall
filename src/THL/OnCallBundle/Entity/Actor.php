@@ -7,92 +7,78 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Actor
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="THL\OnCallBundle\Entity\ActorRepository")
+ * @ORM\Table(name="actor")
+ * @ORM\Entity
  */
-
-class Actor {
+class Actor
+{
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
     private $email;
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_index", type="integer")
+     * @ORM\Column(name="order_index", type="integer", nullable=false)
      */
-    private $order_index;
+    private $orderIndex;
+
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="is_active", type="boolean", nullable=false)
      */
-    private $is_active;
+    private $isActive;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="reference_date", type="date")
+     * @ORM\Column(name="reference_date", type="date", nullable=false)
      */
-    private $reference_date;
+    private $referenceDate;
 
-    /**
-     * @param $reference_date
-     *
-     * @return $this
-     */public function setReferenceDate($reference_date) {
-        $this->reference_date=$reference_date;
-        return $this;
-}
 
-    /**
-     * @return \DateTime
-     */public function getReferenceDate() {
-        return $this->reference_date;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOrderIndex() {
-        return $this->order_index;
-    }
-
-    /**
-     * Set Order
-     *
-     * @param int $order_index
-     *
-     * @return Actor
-     */
-    public function setOrderIndex($order_index) {
-        $this->order_index=$order_index;
-        return $this;
-    }
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Actor
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -100,19 +86,20 @@ class Actor {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     /**
-     * Set name
+     * Set email
      *
-     * @param string $name
-     *
+     * @param string $email
      * @return Actor
      */
-    public function setName($name) {
-        $this->name=$name;
+    public function setEmail($email)
+    {
+        $this->email = $email;
 
         return $this;
     }
@@ -122,42 +109,87 @@ class Actor {
      *
      * @return string
      */
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
     /**
-     * Set email
+     * Set orderIndex
      *
-     * @param string $email
-     *
+     * @param integer $orderIndex
      * @return Actor
      */
-    public function setEmail($email) {
-        $this->email=$email;
+    public function setOrderIndex($orderIndex)
+    {
+        $this->orderIndex = $orderIndex;
 
         return $this;
     }
 
     /**
-     * Get is_active
+     * Get orderIndex
+     *
+     * @return integer
+     */
+    public function getOrderIndex()
+    {
+        return $this->orderIndex;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Actor
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
      *
      * @return boolean
      */
-    public function getIsActive() {
-        return $this->is_active;
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 
     /**
-     * Set is_active
+     * Set referenceDate
      *
-     * @param boolean $isActive
-     *
+     * @param \DateTime $referenceDate
      * @return Actor
      */
-    public function setIsActive($isActive) {
-        $this->is_active=$isActive;
+    public function setReferenceDate($referenceDate)
+    {
+        $this->referenceDate = $referenceDate;
 
         return $this;
     }
+
+    /**
+     * Get referenceDate
+     *
+     * @return \DateTime
+     */
+    public function getReferenceDate()
+    {
+        return $this->referenceDate;
+    }
+
+    /**
+     * Returns name
+     *
+     * @return string
+     */
+    public function __toString() {
+        return $this->getName();
+    }
+
 }

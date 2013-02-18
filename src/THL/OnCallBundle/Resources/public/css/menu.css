@@ -3,17 +3,17 @@
     background-color: #265399;
     padding-left: 22px;
 }
-ul.menu {
+#menu > ul {
     list-style: none inside;
     font-family: 'Julius Sans One', sans-serif;
     font-size: 18pt;
 }
 
-ul.menu.top>li:hover, ul.menu.top>li:hover>ul  {
+#menu > ul>li:hover, #menu > ul>li:hover>ul  {
     box-shadow: 2px 2px 5px #000000;
 }
 
-ul.menu.top > li {
+#menu > ul > li {
     margin: 0;
     vertical-align: top;
     display: inline-block;
@@ -23,10 +23,10 @@ ul.menu.top > li {
     text-shadow: 0 0 5px #132245;
 }
 
-ul.menu.top > li, ul.menu.sub > li {
+#menu > ul > li, #menu > ul.sub > li {
     min-width: 80px;
 }
-ul.menu.top > li > a, ul.menu.sub > li > a {
+#menu > ul > li > a, #menu > ul.sub > li > a {
     color: #ffffff;
     min-width: 100px;
     padding: 12px;
@@ -34,20 +34,20 @@ ul.menu.top > li > a, ul.menu.sub > li > a {
     display: block;
 }
 
-ul.menu.top > li:hover > a,ul.menu.top > li > ul > li:hover > a {
+#menu > ul > li:hover > a,#menu > ul > li > ul > li:hover > a {
     color: #dffcff;
     text-decoration: none;
     display: block;
     text-shadow: 0 0 10px #3a97ff;
 }
 
-ul.menu.sub > li {
+#menu > ul.sub > li {
     display: block;
 }
-ul.menu.sub {
+#menu > ul.sub {
     display: none;
 }
-ul.menu.top>li:hover {
+#menu > ul>li:hover {
     border-radius: 0 15px 0 0;
     background: -moz-linear-gradient(top,  #265399 0%, #132245 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#265399), color-stop(100%,#132245)); /* Chrome,Safari4+ */
@@ -57,13 +57,13 @@ ul.menu.top>li:hover {
     background: linear-gradient(to bottom,  #265399 0%,#132245 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#265399', endColorstr='#132245',GradientType=0 ); /* IE6-9 */
 }
-ul.menu.top>li:hover  ul.menu.sub {
+#menu > ul>li:hover  #menu > ul.sub {
     display: block;
     position: fixed;
     background-color: #132245;
 }
 
-ul.menu.top>li:hover  ul.menu.sub:last-child {
+#menu > ul>li:hover  #menu > ul.sub:last-child {
     border-radius: 0 0 0 15px;
 }
 

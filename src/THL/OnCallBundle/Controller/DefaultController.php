@@ -11,15 +11,38 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller {
     /**
      * @Route("/")
-     * @Template()
+     * @Template("THLOnCallBundle:Default:schedule-grid.html.twig")
      */
     public function indexAction() {
         /**
          * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
          */
         $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
-        $repo->generateSchedule(new \DateTime(), new \DateTime('next week'), 4);
-        return array('name'=>'$name');
+        $start = new \DateTime('first day of this month');
+        $end = new \DateTime('last day of this month');
+        $repo->generateSchedule($start, $end, 4);
+        return array(
+            'periodStart'=>$start->format("Y-m-d"),
+            'periodEnd'=>$end->format("Y-m-d")
+        );
+    }
+
+    /**
+     * @Route("/week")
+     * @Template("THLOnCallBundle:Default:schedule-grid.html.twig")
+     */
+    public function weekAction() {
+        /**
+         * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
+         */
+        $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
+        $start = new \DateTime('monday this week');
+        $end = new \DateTime('friday this week');
+        $repo->generateSchedule($start, $end, 4);
+        return array(
+            'periodStart'=>$start->format("Y-m-d"),
+            'periodEnd'=>$end->format("Y-m-d")
+        );
     }
 
     /**

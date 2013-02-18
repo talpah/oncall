@@ -1,0 +1,60 @@
+<?php
+
+namespace THL\OnCallBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Actor
+ *
+ * @ORM\Table(name="actor")
+ * @ORM\Entity
+ */
+class Actor
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="order_index", type="integer", nullable=false)
+     */
+    private $orderIndex;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_active", type="boolean", nullable=false)
+     */
+    private $isActive;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="reference_date", type="date", nullable=false)
+     */
+    private $referenceDate;
+
+
+}

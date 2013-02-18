@@ -7,73 +7,54 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Schedule
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="THL\OnCallBundle\Entity\ScheduleRepository")
+ * @ORM\Table(name="schedule")
+ * @ORM\Entity
  */
 class Schedule
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="actor_id", type="integer")
-     */
-    private $actor_id;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="date", nullable=false)
      */
     private $date;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_custom", type="boolean")
+     * @ORM\Column(name="is_custom", type="boolean", nullable=false)
      */
-    private $is_custom;
+    private $isCustom;
+
+    /**
+     * @var \Actor
+     *
+     * @ORM\ManyToOne(targetEntity="Actor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actor_id", referencedColumnName="id")
+     * })
+     */
+    private $actor;
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set actor_id
-     *
-     * @param integer $actorId
-     * @return Schedule
-     */
-    public function setActorId($actorId)
-    {
-        $this->actor_id = $actorId;
-    
-        return $this;
-    }
-
-    /**
-     * Get actor_id
-     *
-     * @return integer 
-     */
-    public function getActorId()
-    {
-        return $this->actor_id;
     }
 
     /**
@@ -85,14 +66,14 @@ class Schedule
     public function setDate($date)
     {
         $this->date = $date;
-    
+
         return $this;
     }
 
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -100,25 +81,56 @@ class Schedule
     }
 
     /**
-     * Set is_custom
+     * Set isCustom
      *
      * @param boolean $isCustom
      * @return Schedule
      */
     public function setIsCustom($isCustom)
     {
-        $this->is_custom = $isCustom;
-    
+        $this->isCustom = $isCustom;
+
         return $this;
     }
 
     /**
-     * Get is_custom
+     * Get isCustom
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsCustom()
     {
-        return $this->is_custom;
+        return $this->isCustom;
+    }
+
+    /**
+     * Set actor
+     *
+     * @param \THL\OnCallBundle\Entity\Actor $actor
+     * @return Schedule
+     */
+    public function setActor(\THL\OnCallBundle\Entity\Actor $actor = null)
+    {
+        $this->actor = $actor;
+
+        return $this;
+    }
+
+    /**
+     * Get actor
+     *
+     * @return \THL\OnCallBundle\Entity\Actor
+     */
+    public function getActor()
+    {
+        return $this->actor;
+    }
+
+    /**
+     * Returns date
+     * @return string
+     */
+    public function __toString() {
+        return $this->getDate()->format('Y-m-d');
     }
 }
