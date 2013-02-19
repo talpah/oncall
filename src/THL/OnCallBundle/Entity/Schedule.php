@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Schedule
  *
  * @ORM\Table(name="schedule")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="THL\OnCallBundle\Entity\ScheduleRepository")
  */
 class Schedule
 {

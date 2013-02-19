@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class ScheduleRepository extends EntityRepository {
 
 
-    public function getJsonScheduleFor($startDate, $endDate) {
+    public function findScheduleFor($startDate, $endDate) {
         return '[
     {"date":"2013-02-04", "assignee":"Cosmin I."},
     {"date":"2013-02-05", "assignee":"Robert S."},
