@@ -5,6 +5,7 @@ namespace THL\OnCallBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -70,6 +71,13 @@ class DefaultController extends Controller {
         return array(
             'result'=>$result
         );
+    }
+
+    /**
+     * @Route("/oncall/")
+     */
+    public function oncallAction() {
+        return new RedirectResponse($this->generateUrl('thl_oncall_default_index'), 301);
     }
 
     private function clearCache($path) {

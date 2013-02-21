@@ -24,7 +24,7 @@
         $(document).ready(function () {
             dTable = new DataTable(
                     $('#dataTable'),
-                    '/oncall/json-get-assignments',
+                    '{{ path('thl_oncall_default_jsongetassignments') }}',
                     {
                         postData: {
                             start: '{{ periodStart }}',

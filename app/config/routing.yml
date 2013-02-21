@@ -1,7 +1,7 @@
 thl_on_call:
     resource: "@THLOnCallBundle/Controller/"
     type:     annotation
-    prefix:   /oncall/
+#    prefix:   /oncall/
 #    pattern: /
 
 # Internal routing configuration to handle ESI

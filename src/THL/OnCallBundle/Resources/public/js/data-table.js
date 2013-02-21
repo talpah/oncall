@@ -92,29 +92,31 @@ var DataTable = (function () {
         square.appendTo('body');
         var squareWidth = square.outerWidth(true);
         square.remove();
-        this._container.width(squareWidth*widthMultiplier);
+        this._container.width(squareWidth*widthMultiplier+widthMultiplier);
     };
 
     DataTable.prototype._square = function (data) {
         var mySquare = $('<div/>').addClass(this._options.squareClass);
+        var myDate = new Date();
         if (data!==undefined) {
-            var myDate = new Date(data.date);
+            myDate = new Date(data.date);
             var dateString = myDate.valueOf();
             mySquare.attr('id', dateString);
             mySquare.attr('assignee', data.assignee);
             mySquare.html(this._dataElementToHtml(data));
             if (myDate.toLocaleDateString() == this._today) {
                 mySquare.addClass('today');
+            } else if (myDate<(new Date())) {
+                mySquare.addClass('disabled pastdate');
             }
         } else {
             var previousElement = this._container.children('.square:last');
             if (previousElement.length>0 && previousElement.attr('id')) {
-                var myDate = new Date();
                 myDate.setTime(previousElement.attr('id'));
                 myDate.setDate(myDate.getDate()+1);
                 mySquare.attr('id', myDate.valueOf());
             }
-            mySquare.addClass('disabled').html('empty');
+            mySquare.addClass('disabled').html('&nbsp;');
         }
 
         if (myDate) {
