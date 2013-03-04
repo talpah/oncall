@@ -14,6 +14,7 @@ var DataTable = (function () {
         }
         this._data = data;
         this._container = container;
+        this._squareSize = 100;
         this._defaultOptions = {
             postData : {},
             headers: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ],
@@ -54,7 +55,7 @@ var DataTable = (function () {
 
     DataTable.prototype._generateGrid = function () {
         this._container.html('');
-        this._setContainerWidth(7);
+        this._setContainerWidth();
 
         for (var head in this._options.headers) {
             this._squareHead(this._options.headers[head]).appendTo(this._container);
@@ -87,12 +88,20 @@ var DataTable = (function () {
         }
     };
 
-    DataTable.prototype._setContainerWidth = function (widthMultiplier) {
-        var square = $('<div/>').addClass(this._options.squareClass).css({visibility: 'hidden'});
-        square.appendTo('body');
-        var squareWidth = square.outerWidth(true);
-        square.remove();
-        this._container.width(squareWidth*widthMultiplier+widthMultiplier);
+    DataTable.prototype._setContainerWidth = function () {
+        var widthMultiplier = 7;
+        var heightMultiplier = Math.ceil(this._data.length/5);
+        var viewportWidth = $(window).width()-$('#dataTable').offset().left*2;
+        var viewportHeight = $(window).height()-$('#dataTable').offset().top*2;
+        this._container.height(viewportHeight);
+        var squareWidth;
+        if (widthMultiplier/2>heightMultiplier) {
+            squareWidth = viewportWidth/widthMultiplier*0.9;
+        } else {
+            squareWidth = viewportHeight/heightMultiplier*0.9;
+        }
+        this._container.width(squareWidth*widthMultiplier+100);
+        this._squareSize = squareWidth;
     };
 
     DataTable.prototype._square = function (data) {
@@ -123,6 +132,11 @@ var DataTable = (function () {
             $('<span/>').addClass('squareDate').html(myDate.getDate()).appendTo(mySquare);
         }
 
+        mySquare
+            .css('width', this._squareSize)
+            .css('height', this._squareSize)
+            .css('font-size', (this._squareSize/100*100) + '%');
+
         return mySquare;
     };
 
@@ -133,6 +147,7 @@ var DataTable = (function () {
         } else {
             mySquare.addClass('disabled');
         }
+        mySquare.css('width', this._squareSize);
         return mySquare;
     };
 
