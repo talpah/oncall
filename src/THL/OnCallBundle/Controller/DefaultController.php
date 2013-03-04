@@ -29,10 +29,12 @@ class DefaultController extends Controller {
      * @Template("THLOnCallBundle:Default:schedule-grid.html.twig")
      */
     public function weekAction() {
-        /**
-         * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
-         */
-
+        $start=new \DateTime('Monday');
+        $end=new \DateTime('Friday');
+        return array(
+            'periodStart'=>$start->format("Y-m-d"),
+            'periodEnd'  =>$end->format("Y-m-d")
+        );
     }
 
     /**
