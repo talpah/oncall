@@ -132,7 +132,8 @@ class ScheduleGenerator implements \Iterator
      */
     public function rewind()
     {
-        $lastActorDate = new \DateTime(array_keys($this->getActorDates())[$this->actorCount-1]);
+        $actorDates = array_keys($this->getActorDates());
+        $lastActorDate = new \DateTime($actorDates[$this->actorCount-1]);
         $dateDiff = $this->startDate->diff($lastActorDate);
         $dateDiff = $dateDiff->days * ($dateDiff->invert ? -1 : 1);
         if ($dateDiff >=0) {

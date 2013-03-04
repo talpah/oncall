@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -38,14 +39,13 @@ class DefaultController extends Controller {
      * @Route("/json-get-assignments")
      * @Template()
      */
-    public function jsonGetAssignmentsAction() {
+    public function jsonGetAssignmentsAction(Request $request) {
         /**
          * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
          */
-
         $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
-        $start=new \DateTime('first day of this month');
-        $end=new \DateTime('last day of this month');
+        $start=new \DateTime($request->request->get('start'));
+        $end=new \DateTime($request->request->get('end'));
         $response = $repo->generateSchedule($start, $end, 4);
         return new Response($response, 200, array('Content-Type'=>'application/json'));
     }
