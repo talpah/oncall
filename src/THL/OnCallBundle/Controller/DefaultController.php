@@ -15,13 +15,8 @@ class DefaultController extends Controller {
      * @Template("THLOnCallBundle:Default:schedule-grid.html.twig")
      */
     public function indexAction() {
-        /**
-         * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
-         */
-        $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
         $start=new \DateTime('first day of this month');
         $end=new \DateTime('last day of this month');
-        //$repo->generateSchedule($start, $end, 4);
         return array(
             'periodStart'=>$start->format("Y-m-d"),
             'periodEnd'  =>$end->format("Y-m-d")
@@ -36,14 +31,7 @@ class DefaultController extends Controller {
         /**
          * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
          */
-        $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
-        $start=new \DateTime('monday this week');
-        $end=new \DateTime('friday this week');
-        $repo->generateSchedule($start, $end, 4);
-        return array(
-            'periodStart'=>$start->format("Y-m-d"),
-            'periodEnd'  =>$end->format("Y-m-d")
-        );
+
     }
 
     /**
@@ -54,12 +42,12 @@ class DefaultController extends Controller {
         /**
          * @var \THL\OnCallBundle\Entity\ScheduleRepository $repo
          */
+
         $repo=$this->getDoctrine()->getRepository('THLOnCallBundle:Schedule');
-//        var_dump(get_class($repo)); exit();
-        $schedule=$repo->findScheduleFor('', '');
-        //        $schedule = json_encode($schedule, true);
-        $response=new Response($schedule, 200, array('Content-Type'=>'application/json'));
-        return $response;
+        $start=new \DateTime('first day of this month');
+        $end=new \DateTime('last day of this month');
+        $response = $repo->generateSchedule($start, $end, 4);
+        return new Response($response, 200, array('Content-Type'=>'application/json'));
     }
 
     /**
