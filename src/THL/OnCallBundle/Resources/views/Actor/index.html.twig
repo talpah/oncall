@@ -25,7 +25,7 @@
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.orderindex }}</td>
                 <td>{{ entity.isactive }}</td>
-                <td>{% if entity.referencedate %}{{ entity.referencedate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.referencedate %}{{ entity.referencedate|date('Y-m-d') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
