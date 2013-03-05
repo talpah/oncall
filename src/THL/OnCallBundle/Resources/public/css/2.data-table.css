@@ -16,6 +16,9 @@
     height: 100px;
     width: 100px;
 }
+.square:hover {
+    text-shadow: 3px 3px 4px #005587;
+}
 
 .squareHeader {
     display: inline-block;
@@ -46,15 +49,16 @@
 .today {
     background-color: rgb(255, 227, 123);
 }
-.squareDate {
+span.squareDate {
     position: absolute;
-    font-size: 14px;
+    font-size: 100%;
     display: block;
-    line-height: 22px;
+    line-height: normal;
     text-align: right;
     padding-right: 4px;
-    width: 22px;
-    height: 22px;
+    padding-top: 4px;
+    width: 20%;
+    height: 20%;
     top: 0px;
     right: 0px;
     background-color: #0057af;

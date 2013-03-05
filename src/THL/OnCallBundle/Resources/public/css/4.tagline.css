@@ -1,0 +1,13 @@
+#tagline {
+    background-color: #ffffff;
+    border: 4px double #265399;
+    border-width: 0 0 4px 0;
+}
+
+#tagline h1 {
+    display: inline-block;
+    margin: 0;
+    padding: 10px;
+    font-size: 24px;
+    width: 250px;
+}

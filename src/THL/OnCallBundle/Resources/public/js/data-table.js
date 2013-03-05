@@ -106,7 +106,7 @@ var DataTable = (function () {
 
     DataTable.prototype._square = function (data) {
         var mySquare = $('<div/>').addClass(this._options.squareClass);
-        var myDate = new Date();
+        var myDate;
         if (data!==undefined) {
             myDate = new Date(data.date);
             var dateString = myDate.valueOf();
@@ -121,6 +121,7 @@ var DataTable = (function () {
         } else {
             var previousElement = this._container.children('.square:last');
             if (previousElement.length>0 && previousElement.attr('id')) {
+                myDate = new Date();
                 myDate.setTime(previousElement.attr('id'));
                 myDate.setDate(myDate.getDate()+1);
                 mySquare.attr('id', myDate.valueOf());
@@ -135,7 +136,8 @@ var DataTable = (function () {
         mySquare
             .css('width', this._squareSize)
             .css('height', this._squareSize)
-            .css('font-size', (this._squareSize/100*100) + '%');
+            .css('line-height', this._squareSize+'px')
+            .css('font-size', (this._squareSize) + '%');
 
         return mySquare;
     };
