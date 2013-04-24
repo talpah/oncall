@@ -29,7 +29,7 @@ class DefaultController extends Controller {
      * @Template("THLOnCallBundle:Default:schedule-grid.html.twig")
      */
     public function weekAction() {
-        $start=new \DateTime('Monday');
+        $start=new \DateTime('this week');
         $end=new \DateTime('Friday');
         return array(
             'periodStart'=>$start->format("Y-m-d"),

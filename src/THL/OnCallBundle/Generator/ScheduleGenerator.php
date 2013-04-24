@@ -78,7 +78,7 @@ class ScheduleGenerator implements \Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * @return Actor
      */
     public function current()
     {
@@ -96,8 +96,16 @@ class ScheduleGenerator implements \Iterator
         $this->currentDate = $this->getNextWorkingDay($this->currentDate);
         if ($this->direction>0) {
             $this->currentActor = $this->currentActor == $this->actorCount - 1 ? 0 : $this->currentActor + 1;
+            if ($this->current()->getReferenceDate()>$this->currentDate) {
+                // Skip actor until reaching his reference date
+                $this->currentActor = $this->currentActor == $this->actorCount - 1 ? 0 : $this->currentActor + 1;
+            }
         } else {
             $this->currentActor = $this->currentActor == 0 ?$this->actorCount - 1 : $this->currentActor -1;
+            if ($this->current()->getReferenceDate()>$this->currentDate) {
+                // Skip actor after reaching his reference date
+                $this->currentActor = $this->currentActor == 0 ?$this->actorCount - 1 : $this->currentActor -1;
+            }
         }
     }
 

@@ -52,7 +52,8 @@ class ScheduleRepository extends EntityRepository
      */
     public function generateSchedule(\DateTime $start, \DateTime $end)
     {
-        $actors = $this->getEntityManager()->getRepository('THLOnCallBundle:Actor')->findAll();
+        $actors = $this->getEntityManager()->getRepository('THLOnCallBundle:Actor')->findBy(array('isActive'=>1),
+            array('orderIndex'=>'ASC'));
         $generator = new ScheduleGenerator($actors, $start, $end);
         $schedule = array();
         foreach ($generator as $date => $actor) {

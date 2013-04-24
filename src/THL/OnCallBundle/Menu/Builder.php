@@ -13,6 +13,10 @@ class Builder extends ContainerAware
 
         $menu->addChild('This month', array('route' => 'thl_oncall_default_index'));
         $menu->addChild('This week', array('route' => 'thl_oncall_default_week'));
+        $adminMenu = $menu->addChild('Admin', array('uri' => '#'));
+        $adminMenu->addChild('Actors', array('route'=>'actor'));
+        $adminMenu->addChild('Schedule', array('route'=>'schedule'));
+        ;
 //        $menu->addChild('About Me', array(
 //            'route' => 'page_show',
 //            'routeParameters' => array('id' => 42)
